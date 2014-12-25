@@ -1,12 +1,19 @@
 ;;; -*- coding: utf-8 -*-
-(("/Users/manish/.emacs.d/init.el" . 849)
+(("/Users/manish/.emacs.d/init.el" . 2855)
+ ("/Users/manish/.recentf" . 834)
+ ("/Users/manish/dev/"
+  (dired-filename . "/Users/manish/dev/.DS_Store"))
+ ("/Users/manish/dev/dotfiles/emacs/emacs" . 2216)
+ ("/Users/manish/foo.sml" . 26)
+ ("/Users/manish/.emacs.d/elpa/sml-modeline-20120110.1240/sml-modeline-autoloads.el" . 1103)
+ ("/Users/manish/.emacs.d/packages/"
+  (dired-filename . "/Users/manish/.emacs.d/packages/paredit.el"))
+ ("/Users/manish/.emacs.d/elpa/helm-ls-git-20141205.2335/helm-ls-git-autoloads.el" . 345)
  ("/Users/manish/.virtualenvs/conflow/web/app/"
   (dired-filename . "/Users/manish/.virtualenvs/conflow/web/app/__init__.py"))
  ("/Users/manish/dev/Python/colorlogger.py" . 2133)
  ("/Users/manish/dev/C/ascii_to_integer.c" . 75)
  ("/Users/manish/dev/C/LinkedList.c" . 73)
- ("/Users/manish/.emacs.d/packages/paredit.el" . 29413)
- ("/Users/manish/.recentf" . 794)
  ("/Users/manish/.emacs.d/elpa/helm-ag-20141211.530/helm-ag-autoloads.el" . 576)
  ("/Users/manish/.emacs.d/elpa/helm-20141222.1353/helm-autoloads.el" . 38399)
  ("/Users/manish/.emacs.d/elpa/async-20141222.2207/async-autoloads.el" . 2530)
