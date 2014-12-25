@@ -7,9 +7,6 @@
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/") t)
 
-(when (not package-archive-contents)
-  (package-refresh-contents))
-
 (load "~/.emacs.d/user.el")
 
 ;; Install starter packages if not there already.
