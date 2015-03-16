@@ -1,12 +1,27 @@
 ;; Path
 (add-to-list 'load-path "~/.emacs.d/packages/")
 
+;; Emacs System stuff
+(defalias 'yes-or-no-p 'y-or-n-p)
+(global-set-key (kbd "C-+") 'text-scale-increase) ; Increase font size
+(global-set-key (kbd "C--") 'text-scale-decrease) ; Decease font size
+
+(setq mac-option-modifier 'super) ;; OS X option key is now super
+(setq mac-command-modifier 'meta) ;; OS X cmd key is now Meta
+
+;; Editor stuff
+
 ;; Linum
 (require 'linum)
 (global-linum-mode t)
 (setq linum-format "%3d ")
 
-;; Editor stuff
+;; Indentation
+(define-key global-map (kbd "RET") 'newline-and-indent)
+
+;; Use OS clipboard
+(require 'pbcopy)
+(turn-on-pbcopy)
 
 ;; Use spaces instead of tabs for indentation
 (setq indent-tabs-mode nil)
@@ -23,18 +38,6 @@
 
 ;; Ignore bell
 (setq ring-bell-function 'ignore)
-
-;; Themes
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(add-to-list 'load-path "~/.emacs.d/themes")
-; (load-theme 'tomorrow-night t)
-(load-theme 'tomorrow-night-bright t)
-; (load-theme 'solarized-dark t)
-
-;; Font
-;(set-face-attribute 'default nil :height 140)
-(set-default-font "Monaco-15:width=condensed")
-(setq font-lock-maximum-decoration t)
 
 ;; No easy way to jump to matching parenthesis, so we make a mapping!
 ;; Just like in vim, we use the % sign to jump to matching paren.
@@ -63,7 +66,7 @@
 ;; Kill Ring
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 ;; Helm-mini
-(global-set-key (kbd "C-x b") 'helm-mini)
+(global-set-key (kbd "M-p") 'helm-mini)
 
 ;; Using The Silver Searcher with Helm
 (when (executable-find "ag")
@@ -72,22 +75,23 @@
   (setq helm-ag-insert-at-point 'symbol)
   (global-set-key (kbd "M-s") 'helm-do-ag))
 
-;; helm: http://tuhdo.github.io/helm-intro.html
-(require 'helm-config)
-
 ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
 ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
 ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
 (global-set-key (kbd "C-c h") 'helm-command-prefix)
 (global-unset-key (kbd "C-x c"))
 
-;; Helm Git keybinding
-(global-set-key (kbd "C-x C-d") 'helm-browse-project)
-(global-set-key (kbd "C-x M-s") 'helm-ls-git-ls)
+;; helm: http://tuhdo.github.io/helm-intro.html
+(require 'helm)
+(require 'helm-config)
 
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
 (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
 (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+
+;; Helm Git keybinding
+(global-set-key (kbd "M-m") 'helm-browse-project)
+(global-set-key (kbd "C-x M-s") 'helm-ls-git-ls)
 
 ;(when (executable-find "curl")
 ;  (setq helm-google-suggest-use-curl-p t))
@@ -105,10 +109,8 @@
 (require 'helm-ls-git)
 (helm-mode 1)
 
-
 ;; Paredit for Lispy files.
 ;; TODO: enable-paredit-mode not working right now.
-
 (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
 (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
 (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
@@ -145,3 +147,5 @@
               (cl-flet ((sml--read-run-cmd ()
                                            '("/usr/local/bin/sml" "" nil)))   ; (command args host)  
                 (sml-prog-proc-send-buffer t)))))
+
+

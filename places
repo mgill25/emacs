@@ -1,22 +1,125 @@
 ;;; -*- coding: utf-8 -*-
-(("/Users/manish/.virtualenvs/conflow/api/convflow/schema/problems/idea.js" . 1284)
- ("/Users/manish/.virtualenvs/conflow/api/convflow/routes/api/v2/users.js" . 14595)
- ("/Users/manish/.virtualenvs/conflow/api/convflow/test/test_queries.js" . 7529)
- ("/Users/manish/.emacs.d/user.el" . 2721)
- ("/Users/manish/.virtualenvs/conflow/api/convflow/BDD.txt" . 6563)
- ("/Users/manish/.recentf" . 1344)
- ("/Users/manish/.emacs.d/elpa/helm-bibtexkey-readme.txt" . 272)
- ("/Users/manish/.virtualenvs/conflow/api/convflow/app.js" . 3331)
- ("/Users/manish/.emacs.d/init.el" . 640)
+(("/Users/manish/.virtualenvs/conflow/web/debug.py" . 492)
+ ("/Users/manish/.emacs.d/user.el" . 1976)
+ ("/Users/manish/foo.py" . 171)
+ ("/Users/manish/.virtualenvs/conflow/web/run.py" . 126)
+ ("/Users/manish/.virtualenvs/conflow/web/deps.sh" . 115)
+ ("/Users/manish/.virtualenvs/conflow/web/requirements.txt" . 15)
+ ("/Users/manish/.virtualenvs/conflow/web/app/"
+  (dired-filename . "/Users/manish/.virtualenvs/conflow/web/app/admin"))
+ ("/Users/manish/.virtualenvs/conflow/web/fabfile.py" . 427)
+ ("/usr/local/Cellar/emacs/24.4/share/emacs/24.4/lisp/eshell/esh-mode.el.gz" . 10695)
+ ("/usr/local/Cellar/emacs/24.4/share/emacs/24.4/etc/HELLO" . 5)
+ ("/Users/manish/.virtualenvs/conflow/web/app/tests/environment.py" . 1334)
+ ("/Users/manish/.virtualenvs/conflow/web/app/tests/run_tests.py" . 618)
+ ("/Users/manish/.emacs.d/style.el" . 588)
+ ("/Users/manish/.recentf" . 1556)
+ ("/Users/manish/.emacs.d/init.el" . 1223)
+ ("/Users/manish/.emacs.d/evil.el" . 975)
+ ("/Users/manish/essential-emacs.md" . 7342)
+ ("/Users/manish/dev/Ruby/things/markov.js" . 2202)
+ ("/Users/manish/.virtualenvs/conflow/api/convflow/utilities/workflow.js" . 107)
+ ("/Users/manish/.virtualenvs/conflow/api/convflow/utilities/daakiyaHelper.js" . 2433)
+ ("/Users/manish/.vim/plugged/ctrlp-cmatcher/install.sh" . 853)
+ ("/Users/manish/.virtualenvs/conflow/api/convflow/BDD.txt" . 1694)
+ ("/Users/manish/.virtualenvs/conflow/web/app/__init__.py" . 969)
+ ("/Users/manish/.emacs.d/elpa/epc-20140609.2234/epc-autoloads.el" . 246)
+ ("/Users/manish/.emacs.d/elpa/concurrent-20150309.2052/concurrent-autoloads.el" . 229)
+ ("/Users/manish/.emacs.d/elpa/deferred-20150309.2052/deferred-autoloads.el" . 225)
+ ("/Users/manish/.emacs.d/elpa/ctable-20140304.1659/ctable-autoloads.el" . 221)
+ ("/Users/manish/.emacs.d/elpa/auto-complete-20150225.715/auto-complete-autoloads.el" . 1688)
+ ("/Users/manish/.emacs.d/elpa/popup-20150116.1223/popup-autoloads.el" . 219)
+ ("/Users/manish/dev.md" . 19)
+ ("/Users/manish/"
+  (dired-filename . "/Users/manish/.Xauthority"))
+ ("/Users/manish/text/"
+  (dired-filename . "/Users/manish/text/nyr.md"))
+ ("/Users/manish/src/" . 175)
+ ("/Users/manish/files/"
+  (dired-filename . "/Users/manish/files/1.tsv"))
  ("/Users/manish/dev/"
   (dired-filename . "/Users/manish/dev/.DS_Store"))
+ ("/Users/manish/blog/"
+  (dired-filename . "/Users/manish/blog/mgill25.github.io"))
+ ("/Users/manish/async.docset/"
+  (dired-filename . "/Users/manish/async.docset/Contents"))
+ ("/Users/manish/VirtualBox VMs/"
+  (dired-filename . "/Users/manish/VirtualBox VMs/boot2docker-vm"))
+ ("/Users/manish/Users/"
+  (dired-filename . "/Users/manish/Users/manish"))
+ ("/Users/manish/SkyDrive/"
+  (dired-filename . "/Users/manish/SkyDrive/.DS_Store"))
+ ("/Users/manish/Public/"
+  (dired-filename . "/Users/manish/Public/.localized"))
+ ("/Users/manish/Pictures/"
+  (dired-filename . "/Users/manish/Pictures/-Girls And Rain- Wallpaper - Imgur"))
+ ("/Users/manish/Music/"
+  (dired-filename . "/Users/manish/Music/.DS_Store"))
+ ("/Users/manish/Movies/"
+  (dired-filename . "/Users/manish/Movies/.DS_Store"))
+ ("/Users/manish/MAVERICKS/"
+  (dired-filename . "/Users/manish/MAVERICKS/.DS_Store"))
+ ("/Users/manish/Library/"
+  (dired-filename . "/Users/manish/Library/.DS_Store"))
+ ("/Users/manish/GRE/"
+  (dired-filename . "/Users/manish/GRE/GRE_ESS_1.md"))
+ ("/Users/manish/Dropbox/"
+  (dired-filename . "/Users/manish/Dropbox/.DS_Store"))
+ ("/Users/manish/Downloads/"
+  (dired-filename . "/Users/manish/Downloads/.DS_Store"))
+ ("/Users/manish/Documents/"
+  (dired-filename . "/Users/manish/Documents/.DS_Store"))
+ ("/Users/manish/Desktop/"
+  (dired-filename . "/Users/manish/Desktop/.DS_Store"))
+ ("/Users/manish/Courses/"
+  (dired-filename . "/Users/manish/Courses/24.00x-Intro-to-Philosophy"))
+ ("/Users/manish/Calibre Library/"
+  (dired-filename . "/Users/manish/Calibre Library/.DS_Store"))
+ ("/Users/manish/Applications/"
+  (dired-filename . "/Users/manish/Applications/.DS_Store"))
+ ("/Users/manish/dev/Python/src/fuckitpy/broke.py" . 159)
+ ("/Users/manish/dev/Python/src/fuckitpy/example.py" . 460)
+ ("/Users/manish/dev/devnotes/adi_ideas.txt" . 2809)
+ ("/Users/manish/dev/Python/bits.py" . 179)
+ ("/Users/manish/dev/src/500lines/template-engine/chapter.md" . 1322)
+ ("/Users/manish/dev/dotfiles/vim/vimrc" . 13907)
+ ("/Users/manish/dev/dotfiles/terminator/config" . 1468)
+ ("/Users/manish/dev/dotfiles/zsh/zpreztorc" . 101)
+ ("/Users/manish/.virtualenvs/conflow/api/convflow/trigger_web.py" . 147)
+ ("/Users/manish/.virtualenvs/conflow/daakiya/daakiya/registry.py" . 259)
+ ("/Users/manish/.virtualenvs/conflow/api/convflow/routes/api/v0.1/users/login.js" . 4188)
+ ("/Users/manish/.virtualenvs/conflow/api/convflow/routes/api/v0.1/users/signup.js" . 12327)
+ ("/Users/manish/.virtualenvs/conflow/daakiya/daakiya/dispatch.py" . 1073)
+ ("/Users/manish/.virtualenvs/conflow/api/convflow/routes/api/v2/middleware.js" . 11081)
+ ("/Users/manish/.virtualenvs/conflow/web/app/admin/"
+  (dired-filename . "/Users/manish/.virtualenvs/conflow/web/app/admin/utils.py"))
+ ("/Users/manish/.virtualenvs/conflow/web/app/problems/"
+  (dired-filename . "/Users/manish/.virtualenvs/conflow/web/app/problems/__init__.py"))
+ ("/Users/manish/.virtualenvs/conflow/web/app/problems/views.py" . 31668)
+ ("/Users/manish/.emacs.d/elpa/evil-20150304.49/evil-autoloads.el" . 1302)
+ ("/Users/manish/.emacs.d/elpa/undo-tree-20140509.522/undo-tree-autoloads.el" . 1632)
+ ("/Users/manish/.emacs.d/elpa/goto-chg-20131228.1459/goto-chg-autoloads.el" . 1856)
+ ("/Users/manish/.virtualenvs/conflow/api/convflow/utilities/"
+  (dired-filename . "/Users/manish/.virtualenvs/conflow/api/convflow/utilities/dailydigest.js"))
+ ("/Users/manish/.virtualenvs/conflow/api/convflow/utilities/dailydigest.js" . 2763)
+ ("/Users/manish/.virtualenvs/conflow/api/convflow/"
+  (dired-filename . "/Users/manish/.virtualenvs/conflow/api/convflow/utilities"))
+ ("/Users/manish/dev/Python/Learning/bitwise_operations.py" . 2)
+ ("/Users/manish/dev/Python/build_assets.py" . 681)
+ ("/Users/manish/.virtualenvs/conflow/api/convflow/utilities/nMessageUtils.js" . 217)
+ ("/Users/manish/.virtualenvs/conflow/api/fabfile.py" . 90)
+ ("/Users/manish/.virtualenvs/conflow/api/convflow/domain/problems/ideas.js" . 6583)
+ ("/Users/manish/.virtualenvs/conflow/api/convflow/utilities/notifications.js" . 6128)
+ ("/Users/manish/.virtualenvs/conflow/api/convflow/app.js" . 4)
+ ("/Users/manish/.virtualenvs/conflow/api/convflow/schema/problems/idea.js" . 1284)
+ ("/Users/manish/.virtualenvs/conflow/api/convflow/routes/api/v2/users.js" . 14595)
+ ("/Users/manish/.virtualenvs/conflow/api/convflow/test/test_queries.js" . 7529)
+ ("/Users/manish/.emacs.d/elpa/helm-bibtexkey-readme.txt" . 272)
  ("/Users/manish/dev/dotfiles/emacs/emacs" . 2216)
  ("/Users/manish/.emacs.d/elpa/sml-modeline-20120110.1240/sml-modeline-autoloads.el" . 1103)
  ("/Users/manish/.emacs.d/packages/"
   (dired-filename . "/Users/manish/.emacs.d/packages/paredit.el"))
  ("/Users/manish/.emacs.d/elpa/helm-ls-git-20141205.2335/helm-ls-git-autoloads.el" . 345)
- ("/Users/manish/.virtualenvs/conflow/web/app/"
-  (dired-filename . "/Users/manish/.virtualenvs/conflow/web/app/__init__.py"))
  ("/Users/manish/dev/Python/colorlogger.py" . 2133)
  ("/Users/manish/dev/C/ascii_to_integer.c" . 75)
  ("/Users/manish/dev/C/LinkedList.c" . 73)
