@@ -280,16 +280,16 @@ modifications)."
 (setq save-abbrevs nil) ;; stop asking to save newly added abbrevs on quitting.
 
 (define-abbrev-table 'global-abbrev-table
-  '(("mg" "@mgill25")
-    ("'name" "Manish Gill")
-    ("'btw" "by the way")
-    ("note" "NOTE: ")
-    ("todo" "TODO: ")
-    ("'js" "JavaScript")
-    ("py" "Python")
-    ("py3" "Python3")
-    ("'wd" "Workday")
-    ("'we" "Weekend")))
+  '(("8mg" "@mgill25")
+    ("8name" "Manish Gill")
+    ("8btw" "by the way")
+    ("8note" "NOTE: ")
+    ("8todo" "TODO: ")
+    ("8js" "JavaScript")
+    ("8py" "Python")
+    ("8py3" "Python3")
+    ("8wd" "Workday")
+    ("8we" "Weekend")))
 
 ;; Note: Capitalizing the first letter, i.e. Btw, expands the abbreviation with an initial capital, i.e. By the way … Sweet.
 
@@ -309,16 +309,17 @@ modifications)."
       ("."            . ?•)))
   (global-prettify-symbols-mode 1))
 
+      ; ("function"     . ?"ƒ")
 ;; Words with dashes don't separate words in lisp
 (dolist (c (string-to-list ":_-?!#*"))
   (modify-syntax-entry c "w" emacs-lisp-mode-syntax-table))
 
-;; JAVASCRIPT Change the word "function" to just f
-(font-lock-add-keywords
- 'js2-mode `(("\\(function *\\)("
-              (0 (progn (compose-region (match-beginning 1) (match-end 1) "ƒ")
-                        nil)))))
-
+;; JavaScript 
+(when (fboundp 'global-prettify-symbols-mode)
+  (add-hook 'js2-mode-hook
+            (lambda ()
+              (push '("function" . ?ƒ) prettify-symbols-alist)
+              (modify-syntax-entry ?. "."))))
 ;; Python
 (when (fboundp 'global-prettify-symbols-mode)
   (add-hook 'python-mode-hook
