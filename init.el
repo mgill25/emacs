@@ -19,6 +19,11 @@
 ; (require 'osx-pseudo-daemon)
 ; (osx-pseudo-daemon-mode 1)
 
+;; Hooks
+(add-hook 'js-mode-hook (lambda () (flycheck-mode t)))
+(add-hook 'python-mode-hook (lambda () (flycheck-select-checker "javascript-eslint")))
+
+;; Evil
 ;; Use c-u as in vim. (This has to come before we require the evil mode)
 (setq evil-want-C-u-scroll t)
 ;; Evil search
@@ -33,6 +38,7 @@
 (load "~/.emacs.d/user.el")
 (load "~/.emacs.d/evil.el")
 (load "~/.emacs.d/style.el")
+(load "~/.emacs.d/eshell-conf.el")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -45,6 +51,7 @@
  '(evil-emacs-state-modes
    (quote
     (magit-commit-mode magit-log-mode magit-stash-mode magit-status-mode)))
+ '(js2-basic-offset 2)
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces

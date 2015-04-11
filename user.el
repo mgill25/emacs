@@ -3,8 +3,9 @@
 
 ;; Emacs System stuff
 (defalias 'yes-or-no-p 'y-or-n-p)
-(global-set-key (kbd "C-+") 'text-scale-increase) ; Increase font size
-(global-set-key (kbd "C--") 'text-scale-decrease) ; Decease font size
+;(global-set-key (kbd "C-+") 'text-scale-increase) ; Increase font size
+;(global-set-key (kbd "C--") 'text-scale-decrease) ; Decease font size
+(load "better-zoom.el")
 
 (setq mac-option-modifier 'super) ;; OS X option key is now super
 (setq mac-command-modifier 'meta) ;; OS X cmd key is now Meta
@@ -15,18 +16,56 @@
 (require 'linum)
 (global-linum-mode t)
 (setq linum-format "%3d ")
+(set-face-attribute 'linum nil :height 100)
 
 ;; Indentation
 (define-key global-map (kbd "RET") 'newline-and-indent)
+(setq python-indent-level 4)
+(setq js-indent-level 2)
+(setq ruby-indent-level 2)
 
-;; Use OS clipboard
+;; Aggressive auto-indentation
+;; taken from https://github.com/howardabrams/dot-files/blob/master/emacs.org
+
+(defun indent-defun ()
+  "Indent current defun.
+Do nothing if mark is active (to avoid deactivaing it), or if
+buffer is not modified (to avoid creating accidental
+modifications)."
+  (interactive)
+  (unless (or (region-active-p)
+              buffer-read-only
+              (null (buffer-modified-p)))
+    (let ((l (save-excursion (beginning-of-defun 1) (point)))
+          (r (save-excursion (end-of-defun 1) (point))))
+      (cl-letf (((symbol-function 'message) #'ignore))
+        (indent-region l r)))))
+
+(defun activate-aggressive-indent ()
+  "Locally add `ha/indent-defun' to `post-command-hook'."
+  (add-hook 'post-command-hook
+            'indent-defun nil 'local))
+
+(add-hook 'emacs-lisp-mode-hook 'activate-aggressive-indent)
+(add-hook 'python-mode-hook 'activate-aggressive-indent)
+(add-hook 'js2-mode-hook 'activate-aggressive-indent)
+
+;; M-( can insert () pair. Do the same for others.
+(global-set-key (kbd "M-[") 'insert-pair)
+(global-set-key (kbd "M-{") 'insert-pair)
+(global-set-key (kbd "M-<") 'insert-pair)
+(global-set-key (kbd "M-'") 'insert-pair)
+(global-set-key (kbd "M-`") 'insert-pair)
+(global-set-key (kbd "M-\"") 'insert-pair)
+
+;; use os clipboard
 (require 'pbcopy)
 (turn-on-pbcopy)
 
-;; Use spaces instead of tabs for indentation
+;; use spaces instead of tabs for indentation
 (setq indent-tabs-mode nil)
 
-;; Set backup directory location
+;; set backup directory location
 (setq backup-directory-alist '(("." . "~/.emacs.d/saves/")))
 
 ;; Make backups by copying
@@ -49,6 +88,13 @@
       ((looking-at "\\s\)") (forward-char 1) (backward-list 1))
       (t (self-insert-command (or arg 1)))))
 
+
+;; Turn on regular expressions for ISearch
+(global-set-key (kbd "C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "C-r") 'isearch-backward-regexp)
+(global-set-key (kbd "C-M-s") 'isearch-forward)
+(global-set-key (kbd "C-M-r") 'isearch-backward)
+
 ;; Then installed packages: better-defaults; magit; paredit
 ;; Install helm. It is amazing. Holy shit helm is AMAZING.
 
@@ -59,14 +105,14 @@
 
 ;; Find in project keybinding.
 ; (global-set-key (kbd "C-x f") 'find-file-in-project)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "M-o") 'helm-find-files)
 
 ;; Currently open buffer list
 (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
 ;; Kill Ring
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 ;; Helm-mini
-(global-set-key (kbd "M-p") 'helm-mini)
+(global-set-key (kbd "M-b") 'helm-mini)
 
 ;; Using The Silver Searcher with Helm
 (when (executable-find "ag")
@@ -84,6 +130,12 @@
 ;; helm: http://tuhdo.github.io/helm-intro.html
 (require 'helm)
 (require 'helm-config)
+(require 'helm-buffers)
+
+(projectile-global-mode)
+(setq projectile-completion-system 'helm)
+(helm-projectile-on)
+(global-set-key (kbd "M-p") 'helm-projectile)
 
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
 (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
@@ -106,8 +158,19 @@
 (setq helm-buffers-fuzzy-matching t
       helm-recentf-fuzzy-match    t)
 
+(setq helm-semantic-fuzzy-match t
+      helm-imenu-fuzzy-match    t)
+
+(global-set-key (kbd "M-t") 'helm-semantic-or-imenu)
+
 (require 'helm-ls-git)
 (helm-mode 1)
+
+;; Recent file list. Emacs already has this feature builtin
+(require 'recentf)
+(recentf-mode 1)
+(setq recentf-max-menu-items 25)
+(global-set-key (kbd "C-c f f") 'recentf-open-files)
 
 ;; Paredit for Lispy files.
 ;; TODO: enable-paredit-mode not working right now.
@@ -119,6 +182,57 @@
 (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
 (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
 
+(autoload 'js2-mode "js2-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+
+                                        ;(add-hook 'js-mode-hook 'js2-minor-mode)
+                                        ; (add-hook 'js2-mode-hook ac-js2-mode)
+(setq js2-highlight-level 3)
+
+;; auto-complete mode
+                                        ;(require 'auto-complete-config)
+                                        ;(ac-config-default)
+
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)                 ; optional
+
+;; ~~Javascript settings.~~
+(setq js-basic-indent 2)
+(setq-default js2-basic-indent 2)
+
+(setq-default js2-basic-offset 2)
+(setq-default js2-auto-indent-p t)
+(setq-default js2-cleanup-whitespace t)
+(setq-default js2-enter-indents-newline t)
+(setq-default js2-global-externs "jQuery $")
+(setq-default js2-indent-on-enter-key t)
+(setq-default js2-mode-indent-ignore-first-tab t)
+(setq-default js2-global-externs '("module" "require" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON"))
+;; We'll let fly do the error parsing...
+(setq-default js2-show-parse-errors nil)
+
+;; Turn on snippets
+(require 'yasnippet)
+(setq yas-snippet-dirs '("~/.emacs.d/snippets/"))
+(yas-global-mode 1)
+                                        ; (add-to-list 'yas/root-directory "~/.emacs.d/snippets/yasnippet-snippets/")
+                                        ; (yas/initialize)
+
+;; auto complete mode
+;; should be loaded after yasnippet so that they can work together
+                                        ; (require 'auto-complete-config)
+                                        ; (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+                                        ; (ac-config-default)
+
+;; set the trigger key so that it can work together with yasnippet on tab key,
+;; if the word exists in yasnippet, pressing tab will cause yasnippet to
+;; activate, otherwise, auto-complete will
+                                        ;(ac-set-trigger-key "TAB")
+                                        ;(ac-set-trigger-key "<tab>")
+
+;; Expand region: Text selection by semantic units.
+(require 'expand-region)
+(global-set-key (kbd "C-@") 'er/expand-region)
 ;; ----------------------------------------------------------------------------------------------
 
 ;; SML-Mode
@@ -149,3 +263,75 @@
                 (sml-prog-proc-send-buffer t)))))
 
 
+;; Web beautify settings.
+;; Set up paredit with js2-mode
+(eval-after-load 'js2-mode '(define-key js2-mode-map "{" 'paredit-open-curly))
+(eval-after-load 'js2-mode '(define-key js2-mode-map "}" 'paredit-close-curly-and-newline))
+(eval-after-load 'js2-mode '(define-key js2-mode-map (kbd "C-c b") 'web-beautify-js))
+;; Or if you're using 'js-mode' (a.k.a 'javascript-mode')
+(eval-after-load 'js '(define-key js2-mode-map (kbd "C-c b") 'web-beautify-js))
+(eval-after-load 'json-mode '(define-key json-mode-map (kbd "C-c b") 'web-beautify-js))
+(eval-after-load 'sgml-mode '(define-key html-mode-map (kbd "C-c b") 'web-beautify-html))
+(eval-after-load 'css-mode '(define-key css-mode-map (kbd "C-c b") 'web-beautify-css))
+
+
+;; Abbreviation mode (builtin)
+(setq-default abbrev-mode t) 
+(setq save-abbrevs nil) ;; stop asking to save newly added abbrevs on quitting.
+
+(define-abbrev-table 'global-abbrev-table
+  '(("mg" "@mgill25")
+    ("'name" "Manish Gill")
+    ("'btw" "by the way")
+    ("note" "NOTE: ")
+    ("todo" "TODO: ")
+    ("'js" "JavaScript")
+    ("py" "Python")
+    ("py3" "Python3")
+    ("'wd" "Workday")
+    ("'we" "Weekend")))
+
+;; Note: Capitalizing the first letter, i.e. Btw, expands the abbreviation with an initial capital, i.e. By the way … Sweet.
+
+;; Emmet-Mode
+(require 'emmet-mode)
+(add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
+(add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
+
+;; Prettify symbols globally
+(when (fboundp 'global-prettify-symbols-mode)
+  (defconst lisp--prettify-symbols-alist
+    '(("lambda"       . ?λ)
+      ("curry"        . ?»)
+      ("rcurry"       . ?«)
+      ("comp"         . ?∘)
+      ("compose"      . ?∘)
+      ("."            . ?•)))
+  (global-prettify-symbols-mode 1))
+
+;; Words with dashes don't separate words in lisp
+(dolist (c (string-to-list ":_-?!#*"))
+  (modify-syntax-entry c "w" emacs-lisp-mode-syntax-table))
+
+;; JAVASCRIPT Change the word "function" to just f
+(font-lock-add-keywords
+ 'js2-mode `(("\\(function *\\)("
+              (0 (progn (compose-region (match-beginning 1) (match-end 1) "ƒ")
+                        nil)))))
+
+;; Python
+(when (fboundp 'global-prettify-symbols-mode)
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (push '("self" . ?◎) prettify-symbols-alist)
+              (modify-syntax-entry ?. "."))))
+
+;; Place warning font arount this stuff
+(font-lock-add-keywords 'js2-mode
+                        '(("\\<\\(FIX\\|TODO\\|FIXME\\|HACK\\|REFACTOR\\):"
+                           1 font-lock-warning-face t)))
+
+;; JS2-Refactor prefix keybinding
+;; https://github.com/magnars/js2-refactor.el
+(js2r-add-keybindings-with-prefix "C-c C-m")
+;; eg. extract function with `C-c C-m ef`.
