@@ -5,6 +5,9 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
                                         ;(global-set-key (kbd "C-+") 'text-scale-increase) ; Increase font size
                                         ;(global-set-key (kbd "C--") 'text-scale-decrease) ; Decease font size
+(setq visible-bell nil)
+(setq ring-bell-function #'ignore)
+
 (load "better-zoom.el")
 
 (setq mac-option-modifier 'super) ;; OS X option key is now super
