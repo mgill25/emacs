@@ -3,12 +3,20 @@
 
 ;; Emacs System stuff
 (defalias 'yes-or-no-p 'y-or-n-p)
-;(global-set-key (kbd "C-+") 'text-scale-increase) ; Increase font size
-;(global-set-key (kbd "C--") 'text-scale-decrease) ; Decease font size
+                                        ;(global-set-key (kbd "C-+") 'text-scale-increase) ; Increase font size
+                                        ;(global-set-key (kbd "C--") 'text-scale-decrease) ; Decease font size
 (load "better-zoom.el")
 
 (setq mac-option-modifier 'super) ;; OS X option key is now super
 (setq mac-command-modifier 'meta) ;; OS X cmd key is now Meta
+
+;; Better modeline
+(defmacro rename-modeline (package-name mode new-name)
+  `(eval-after-load ,package-name
+     '(defadvice ,mode (after rename-modeline activate)
+        (setq mode-name ,new-name))))
+
+(rename-modeline "js2-mode" js2-mode "JS2")
 
 ;; Editor stuff
 
@@ -58,6 +66,15 @@ modifications)."
 (global-set-key (kbd "M-`") 'insert-pair)
 (global-set-key (kbd "M-\"") 'insert-pair)
 
+;; Multiple cursors
+(require 'multiple-cursors)
+(setq mc/unsupported-minor-modes '(company-mode auto-complete-mode flyspell-mode jedi-mode))
+
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+
 ;; use os clipboard
 (require 'pbcopy)
 (turn-on-pbcopy)
@@ -82,11 +99,11 @@ modifications)."
 ;; Just like in vim, we use the % sign to jump to matching paren.
 (global-set-key "%" 'match-paren)
 (defun match-paren (arg)
- "Go to the matching paren if on a paren; otherwise, insert %."
-(interactive "p")
-(cond ((looking-at "\\s\(") (forward-list 1) (backward-char 1))
-      ((looking-at "\\s\)") (forward-char 1) (backward-list 1))
-      (t (self-insert-command (or arg 1)))))
+  "Go to the matching paren if on a paren; otherwise, insert %."
+  (interactive "p")
+  (cond ((looking-at "\\s\(") (forward-list 1) (backward-char 1))
+        ((looking-at "\\s\)") (forward-char 1) (backward-list 1))
+        (t (self-insert-command (or arg 1)))))
 
 
 ;; Turn on regular expressions for ISearch
@@ -104,7 +121,7 @@ modifications)."
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 ;; Find in project keybinding.
-; (global-set-key (kbd "C-x f") 'find-file-in-project)
+                                        ; (global-set-key (kbd "C-x f") 'find-file-in-project)
 (global-set-key (kbd "M-o") 'helm-find-files)
 
 ;; Currently open buffer list
@@ -145,8 +162,8 @@ modifications)."
 (global-set-key (kbd "M-m") 'helm-browse-project)
 (global-set-key (kbd "C-x M-s") 'helm-ls-git-ls)
 
-;(when (executable-find "curl")
-;  (setq helm-google-suggest-use-curl-p t))
+                                        ;(when (executable-find "curl")
+                                        ;  (setq helm-google-suggest-use-curl-p t))
 
 (setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
       helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
@@ -210,6 +227,36 @@ modifications)."
 (setq-default js2-global-externs '("module" "require" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON"))
 ;; We'll let fly do the error parsing...
 (setq-default js2-show-parse-errors nil)
+
+;; js-comint mode, combined with js-2 makes great interactive node experience, apparently!
+(autoload 'js-comint "js-comint"
+  "Hooking JavaScript interpreter up to the JS Files." t nil)
+(setenv "NODE_NO_READLINE" "1")   ;; Turn off fancy node prompt
+;; Use node as our repl
+(setq inferior-js-program-command "node")
+
+(setq inferior-js-mode-hook
+      (lambda ()
+        ;; We like nice colors
+        (ansi-color-for-comint-mode-on)
+        ;; Deal with some prompt nonsense
+        (add-to-list
+         'comint-preoutput-filter-functions
+         (lambda (output)
+           (replace-regexp-in-string "\033\\[[0-9]+[GK]" "" output)
+           (replace-regexp-in-string ".*1G.*3G" "&GT;" output)
+           (replace-regexp-in-string "&GT;" "> " output)))))
+
+(defun my/js-keybindings ()
+  (interactive)
+  (local-set-key (kbd "C-x C-c") 'js-send-buffer)
+  (local-set-key (kbd "C-x C-r") 'js-send-region)
+  (local-set-key (kbd "C-x C-s") 'js-send-last-sexp)
+  (local-set-key (kbd "C-x C-j") 'run-js))
+
+(add-hook 'js-mode-hook 'my/js-keybindings)
+(add-hook 'js2-mode-hook 'my/js-keybindings)
+;; ------------ ~Fin Javascript ---------------
 
 ;; Turn on snippets
 (require 'yasnippet)
@@ -297,7 +344,6 @@ modifications)."
 (require 'emmet-mode)
 (add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
 (add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
-
 ;; Prettify symbols globally
 (when (fboundp 'global-prettify-symbols-mode)
   (defconst lisp--prettify-symbols-alist
@@ -309,7 +355,7 @@ modifications)."
       ("."            . ?•)))
   (global-prettify-symbols-mode 1))
 
-      ; ("function"     . ?"ƒ")
+                                        ; ("function"     . ?"ƒ")
 ;; Words with dashes don't separate words in lisp
 (dolist (c (string-to-list ":_-?!#*"))
   (modify-syntax-entry c "w" emacs-lisp-mode-syntax-table))

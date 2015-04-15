@@ -16,8 +16,8 @@
 ;; OS X: Pseudo Daemon mode: Create a new frame every time
 ;; we exit from an old one, for emacsclient, so OS X doc icon doesn't become
 ;; useless.
-; (require 'osx-pseudo-daemon)
-; (osx-pseudo-daemon-mode 1)
+                                        ; (require 'osx-pseudo-daemon)
+                                        ; (osx-pseudo-daemon-mode 1)
 
 ;; Hooks
 (add-hook 'js-mode-hook (lambda () (flycheck-mode t)))
@@ -31,10 +31,19 @@
       evil-want-C-u-scroll t
       evil-want-C-w-in-emacs-state t)
 
-; (require 'evil)
+;; Enable evil-leader, before evil itself.
+(require 'evil-leader)
+(global-evil-leader-mode)
+(evil-leader/set-leader ";")
+                                        ; (require 'evil)
 (evil-mode t)
 
+;; Wakatime
+                                        ; (global-wakatime-mode)
+
 ;; Load up the actual configuration files
+(load "~/.emacs.d/internal-config.el")
+(load "~/.emacs.d/ido.el")
 (load "~/.emacs.d/user.el")
 (load "~/.emacs.d/evil.el")
 (load "~/.emacs.d/style.el")
@@ -47,13 +56,12 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("cd540cb356cb169fa1493791bd4cbb183c5ad1c672b8d1be7b23e5e8c8178991" "9e54a6ac0051987b4296e9276eecc5dfb67fdcd620191ee553f40a9b6d943e78" "cf08ae4c26cacce2eebff39d129ea0a21c9d7bf70ea9b945588c1c66392578d1" "5ee12d8250b0952deefc88814cf0672327d7ee70b16344372db9460e9a0e3ffc" "52588047a0fe3727e3cd8a90e76d7f078c9bd62c0b246324e557dfa5112e0d0c" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
+    ("9e54a6ac0051987b4296e9276eecc5dfb67fdcd620191ee553f40a9b6d943e78" default)))
  '(evil-emacs-state-modes
    (quote
     (magit-commit-mode magit-log-mode magit-stash-mode magit-status-mode)))
- '(js2-basic-offset 2)
- '(show-paren-mode t)
- '(tool-bar-mode nil))
+ '(wakatime-api-key "8ef07422-e38c-46d5-be7d-9c466f2a49d5")
+ '(wakatime-cli-path "/usr/local/bin/wakatime"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
