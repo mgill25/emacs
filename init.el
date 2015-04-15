@@ -59,7 +59,7 @@
     ("cf08ae4c26cacce2eebff39d129ea0a21c9d7bf70ea9b945588c1c66392578d1" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "9e54a6ac0051987b4296e9276eecc5dfb67fdcd620191ee553f40a9b6d943e78" default)))
  '(evil-emacs-state-modes
    (quote
-    (magit-commit-mode magit-log-mode magit-stash-mode magit-status-mode)))
+    (magit-commit-mode magit-log-mode magit-stash-mode magit-status-mode org-agenda-mode)))
  '(wakatime-api-key "8ef07422-e38c-46d5-be7d-9c466f2a49d5")
  '(wakatime-cli-path "/usr/local/bin/wakatime"))
 (custom-set-faces

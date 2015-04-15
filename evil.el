@@ -60,14 +60,13 @@
 
 ;; Custom variable
 ;; Add any mode that should start in emacs mode instead of normal/insert mode here!
-(custom-set-variable
+(custom-set-variables
  '(evil-emacs-state-modes
-   (quote
-    (magit-commit-mode
-     magit-log-mode
-     magit-stash-mode
-     magit-status-mode
-     org-agenda-mode))))
+   (quote (magit-commit-mode
+           magit-log-mode
+           magit-stash-mode
+           magit-status-mode
+           org-agenda-mode))))
 
 ;; on OSX, stop copying each visual state move to the clipboard:
 ;; https://bitbucket.org/lyro/evil/issue/336/osx-visual-state-copies-the-region-on
