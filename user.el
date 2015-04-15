@@ -192,6 +192,13 @@ modifications)."
 (setq recentf-max-menu-items 25)
 (global-set-key (kbd "C-c f f") 'recentf-open-files)
 
+;; Org-mode settings
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done 'time) ;; Insert timestamp right after a TODO field is finished.
+(setq org-agenda-files (list "~/org/work.org"
+                             "~/org/home.org"))
+
 ;; Paredit for Lispy files.
 ;; TODO: enable-paredit-mode not working right now.
 (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
