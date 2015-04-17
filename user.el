@@ -8,6 +8,16 @@
 (setq visible-bell nil)
 (setq ring-bell-function #'ignore)
 
+;; Disable some modes if files are heavy
+(defun conditional-disable-modes ()
+  (when (> (buffer-size) 2000000)
+    (flycheck-mode -1)
+    (linum-mode -1)))
+
+(add-hook 'c-mode-hook 'conditional-disable-modes)
+(add-hook 'c++-mode-hook 'conditional-disable-modes)
+(add-hook 'js2-mode-hook 'conditional-disable-modes)
+
 (load "better-zoom.el")
 
 (setq mac-option-modifier 'super) ;; OS X option key is now super
@@ -26,7 +36,7 @@
 ;; Linum
 (require 'linum)
 (global-linum-mode t)
-(setq linum-format "%3d ")
+(setq linum-format "%3d  ")
 (set-face-attribute 'linum nil :height 100)
 
 ;; Indentation
@@ -62,7 +72,7 @@ modifications)."
 (add-hook 'js2-mode-hook 'activate-aggressive-indent)
 
 ;; M-( can insert () pair. Do the same for others.
-(global-set-key (kbd "M-[") 'insert-pair)
+; (global-set-key (kbd "M-[") 'insert-pair)
 (global-set-key (kbd "M-{") 'insert-pair)
 (global-set-key (kbd "M-<") 'insert-pair)
 (global-set-key (kbd "M-'") 'insert-pair)
@@ -198,6 +208,16 @@ modifications)."
 (setq org-log-done 'time) ;; Insert timestamp right after a TODO field is finished.
 (setq org-agenda-files (list "~/org/work.org"
                              "~/org/home.org"))
+
+(defun linevich-linum-mode()  
+  "Custom view for linum mode in text editing"  
+  (interactive)  
+  (make-local-variable 'linum-format)
+  (setq linum-format "         "))
+(add-hook 'org-mode-hook 'linevich-linum-mode)  
+
+;; automatically open the work.org file when emacs starts
+(find-file "~/org/work.org")
 
 ;; Paredit for Lispy files.
 ;; TODO: enable-paredit-mode not working right now.
