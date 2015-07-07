@@ -16,7 +16,6 @@
 
 (add-hook 'c-mode-hook 'conditional-disable-modes)
 (add-hook 'c++-mode-hook 'conditional-disable-modes)
-(add-hook 'js2-mode-hook 'conditional-disable-modes)
 
 (load "better-zoom.el")
 
@@ -29,7 +28,6 @@
      '(defadvice ,mode (after rename-modeline activate)
         (setq mode-name ,new-name))))
 
-(rename-modeline "js2-mode" js2-mode "JS2")
 
 ;; Editor stuff
 
@@ -69,10 +67,9 @@ modifications)."
 
 (add-hook 'emacs-lisp-mode-hook 'activate-aggressive-indent)
 (add-hook 'python-mode-hook 'activate-aggressive-indent)
-(add-hook 'js2-mode-hook 'activate-aggressive-indent)
 
 ;; M-( can insert () pair. Do the same for others.
-; (global-set-key (kbd "M-[") 'insert-pair)
+					; (global-set-key (kbd "M-[") 'insert-pair)
 (global-set-key (kbd "M-{") 'insert-pair)
 (global-set-key (kbd "M-<") 'insert-pair)
 (global-set-key (kbd "M-'") 'insert-pair)
@@ -80,8 +77,8 @@ modifications)."
 (global-set-key (kbd "M-\"") 'insert-pair)
 
 ;; Multiple cursors
-(require 'multiple-cursors)
-(setq mc/unsupported-minor-modes '(company-mode auto-complete-mode flyspell-mode jedi-mode))
+;; (require 'multiple-cursors)
+;; (setq mc/unsupported-minor-modes '(company-mode auto-complete-mode flyspell-mode jedi-mode))
 
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
@@ -217,7 +214,7 @@ modifications)."
 (add-hook 'org-mode-hook 'linevich-linum-mode)  
 
 ;; automatically open the work.org file when emacs starts
-(find-file "~/org/work.org")
+;; (find-file "~/org/work.org")
 
 ;; Paredit for Lispy files.
 ;; TODO: enable-paredit-mode not working right now.
@@ -228,13 +225,6 @@ modifications)."
 (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
 (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
 (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
-
-(autoload 'js2-mode "js2-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-
-                                        ;(add-hook 'js-mode-hook 'js2-minor-mode)
-                                        ; (add-hook 'js2-mode-hook ac-js2-mode)
-(setq js2-highlight-level 3)
 
 ;; auto-complete mode
                                         ;(require 'auto-complete-config)
@@ -256,8 +246,28 @@ modifications)."
 (setq-default js2-mode-indent-ignore-first-tab t)
 (setq-default js2-global-externs '("module" "require" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON"))
 ;; We'll let fly do the error parsing...
-(setq-default js2-show-parse-errors nil)
+;;(setq-default js2-show-parse-errors nil)
 
+(require 'js2-mode)
+;; (add-hook 'js2-mode-hook 'activate-aggressive-indent)
+(rename-modeline "js2-mode" js2-mode "JS2")
+(add-hook 'js2-mode-hook 'conditional-disable-modes)
+
+;;(autoload 'js2-mode "js2-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(add-hook 'js-mode-hook 'js2-minor-mode)
+;;(add-hook 'js2-mode-hook ac-js2-mode)
+(setq js2-highlight-level 3)
+
+;; Place warning font arount this stuff
+(font-lock-add-keywords 'js2-mode
+                        '(("\\<\\(FIX\\|TODO\\|FIXME\\|HACK\\|REFACTOR\\):"
+                           1 font-lock-warning-face t)))
+
+;; JS2-Refactor prefix keybinding
+;; https://github.com/magnars/js2-refactor.el
+;;(js2r-add-keybindings-with-prefix "C-c C-m")
+;; eg. extract function with `C-c C-m ef`.
 ;; js-comint mode, combined with js-2 makes great interactive node experience, apparently!
 (autoload 'js-comint "js-comint"
   "Hooking JavaScript interpreter up to the JS Files." t nil)
@@ -277,35 +287,40 @@ modifications)."
            (replace-regexp-in-string ".*1G.*3G" "&GT;" output)
            (replace-regexp-in-string "&GT;" "> " output)))))
 
+(require 'nodejs-repl-eval)
 (defun my/js-keybindings ()
   (interactive)
-  (local-set-key (kbd "C-x C-c") 'js-send-buffer)
-  (local-set-key (kbd "C-x C-r") 'js-send-region)
-  (local-set-key (kbd "C-x C-s") 'js-send-last-sexp)
-  (local-set-key (kbd "C-x C-j") 'run-js))
+  (local-set-key (kbd "C-x C-r") 'nodejs-repl-eval-region)
+  (local-set-key (kbd "C-x M-f") 'nodejs-repl-start-and-eval-region)
+  (local-set-key (kbd "C-x C-e") 'nodejs-repl-eval-buffer)
+  (local-set-key (kbd "C-x C-j") 'nodejs-repl-eval-dwim)
+  (local-set-key (kbd "C-x C-l") 'nodejs-repl))
 
 (add-hook 'js-mode-hook 'my/js-keybindings)
 (add-hook 'js2-mode-hook 'my/js-keybindings)
+(define-key js2-mode-map (kbd "C-x C-e") 'send-region-to-nodejs-repl-process)
+(define-key nodejs-repl-mode-map (kbd "<up>") 'comint-previous-input)
+(define-key nodejs-repl-mode-map (kbd "<down>") 'comint-next-input)
 ;; ------------ ~Fin Javascript ---------------
 
 ;; Turn on snippets
 (require 'yasnippet)
 (setq yas-snippet-dirs '("~/.emacs.d/snippets/"))
 (yas-global-mode 1)
-                                        ; (add-to-list 'yas/root-directory "~/.emacs.d/snippets/yasnippet-snippets/")
-                                        ; (yas/initialize)
+(add-to-list 'yas/root-directory "~/.emacs.d/snippets/yasnippet-snippets/")
+(yas/initialize)
 
 ;; auto complete mode
 ;; should be loaded after yasnippet so that they can work together
-                                        ; (require 'auto-complete-config)
-                                        ; (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
-                                        ; (ac-config-default)
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+(ac-config-default)
 
 ;; set the trigger key so that it can work together with yasnippet on tab key,
 ;; if the word exists in yasnippet, pressing tab will cause yasnippet to
 ;; activate, otherwise, auto-complete will
-                                        ;(ac-set-trigger-key "TAB")
-                                        ;(ac-set-trigger-key "<tab>")
+(ac-set-trigger-key "TAB")
+(ac-set-trigger-key "<tab>")
 
 ;; Expand region: Text selection by semantic units.
 (require 'expand-region)
@@ -346,7 +361,7 @@ modifications)."
 (eval-after-load 'js2-mode '(define-key js2-mode-map "}" 'paredit-close-curly-and-newline))
 (eval-after-load 'js2-mode '(define-key js2-mode-map (kbd "C-c b") 'web-beautify-js))
 ;; Or if you're using 'js-mode' (a.k.a 'javascript-mode')
-(eval-after-load 'js '(define-key js2-mode-map (kbd "C-c b") 'web-beautify-js))
+;;(eval-after-load 'js '(define-key js2-mode-map (kbd "C-c b") 'web-beautify-js))
 (eval-after-load 'json-mode '(define-key json-mode-map (kbd "C-c b") 'web-beautify-js))
 (eval-after-load 'sgml-mode '(define-key html-mode-map (kbd "C-c b") 'web-beautify-html))
 (eval-after-load 'css-mode '(define-key css-mode-map (kbd "C-c b") 'web-beautify-css))
@@ -385,7 +400,6 @@ modifications)."
       ("."            . ?•)))
   (global-prettify-symbols-mode 1))
 
-                                        ; ("function"     . ?"ƒ")
 ;; Words with dashes don't separate words in lisp
 (dolist (c (string-to-list ":_-?!#*"))
   (modify-syntax-entry c "w" emacs-lisp-mode-syntax-table))
@@ -403,12 +417,3 @@ modifications)."
               (push '("self" . ?◎) prettify-symbols-alist)
               (modify-syntax-entry ?. "."))))
 
-;; Place warning font arount this stuff
-(font-lock-add-keywords 'js2-mode
-                        '(("\\<\\(FIX\\|TODO\\|FIXME\\|HACK\\|REFACTOR\\):"
-                           1 font-lock-warning-face t)))
-
-;; JS2-Refactor prefix keybinding
-;; https://github.com/magnars/js2-refactor.el
-(js2r-add-keybindings-with-prefix "C-c C-m")
-;; eg. extract function with `C-c C-m ef`.

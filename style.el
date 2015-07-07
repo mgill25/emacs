@@ -33,12 +33,17 @@
 (if window-system (enable-theme 'tomorrow-night-bright))
 
 ;; Font
-(set-frame-font "Monaco-15:width=condensed")      ; Set font for current frame
+(set-frame-font "Monaco-13:width=condensed")      ; Set font for current frame
 ;; Sets default font for all the frames
 (add-to-list 'default-frame-alist
-             '(font . "Monaco-15:width=condensed"))
+             '(font . "Monaco-13:width=condensed"))
 (set-face-attribute 'default nil :height 150)
 (setq font-lock-maximum-decoration t)
 
-;; Disable menu bar
+;; Disable menu bar, tool bar, scroll bar.
 (menu-bar-mode 0)
+(tool-bar-mode 0)
+(scroll-bar-mode -1)
+
+;; Start the frame maximized
+(add-to-list 'default-frame-alist '(fullscreen . maximized))

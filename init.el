@@ -1,11 +1,14 @@
 ;; First require Marmalade repo
 (require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 (when (< emacs-major-version 24)
   ;; For important compatibility libraries like cl-lib
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+
+;;(when (not package-archive-contents)
+;;    (package-refresh-contents))
 
 ;; Install starter packages if not there already.
 ;; Starter package link: https://github.com/technomancy/emacs-starter-kit
@@ -56,10 +59,18 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("5ee12d8250b0952deefc88814cf0672327d7ee70b16344372db9460e9a0e3ffc" "cf08ae4c26cacce2eebff39d129ea0a21c9d7bf70ea9b945588c1c66392578d1" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "9e54a6ac0051987b4296e9276eecc5dfb67fdcd620191ee553f40a9b6d943e78" default)))
+    ("5ee12d8250b0952deefc88814cf0672327d7ee70b16344372db9460e9a0e3ffc"
+     "cf08ae4c26cacce2eebff39d129ea0a21c9d7bf70ea9b945588c1c66392578d1"
+     "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4"
+     "9e54a6ac0051987b4296e9276eecc5dfb67fdcd620191ee553f40a9b6d943e78"
+     default)))
  '(evil-emacs-state-modes
    (quote
-    (magit-commit-mode magit-log-mode magit-stash-mode magit-status-mode org-agenda-mode)))
+    (magit-commit-mode
+     magit-log-mode
+     magit-stash-mode
+     magit-status-mode
+     org-agenda-mode)))
  '(wakatime-api-key "8ef07422-e38c-46d5-be7d-9c466f2a49d5")
  '(wakatime-cli-path "/usr/local/bin/wakatime"))
 (custom-set-faces
