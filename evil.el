@@ -13,6 +13,8 @@
 (define-key evil-normal-state-map (kbd ",,") 'evil-buffer)
 (define-key evil-normal-state-map (kbd "q") nil)
 
+(define-key evil-normal-state-map (kbd "C-p") 'helm-projectile) ;; use helm on CtrlP
+
 (define-key evil-insert-state-map (kbd "C-e") nil)
 (define-key evil-insert-state-map (kbd "C-d") nil)
 (define-key evil-insert-state-map (kbd "C-k") nil)
@@ -51,6 +53,7 @@
   "K" 'kill-buffer
   "l" 'linum-mode
   "L" 'linum-relative-toggle
+  "m" 'helm-mini
   "o" 'occur
   "O" 'browse-url
   "p" 'magit-find-file-completing-read
