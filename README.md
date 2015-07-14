@@ -13,3 +13,4 @@ My Emacs configuration.
 7. Helm-ag
 8. Paredit
 9. Yasnippet
+10. Restclient
