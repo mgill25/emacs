@@ -30,6 +30,10 @@
 (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
 (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
 
+;; Define Ex Mode Commands for Evil
+(evil-ex-define-cmd "h[ide]" 'bury-buffer)
+(evil-ex-define-cmd "colo[rscheme]" 'load-theme)
+
 ;; Org mode
 ;; (evil-define-key 'normal org-mode-map (kbd "]n") 'org-forward-heading-same-level)
 ;; (evil-define-key 'normal org-mode-map (kbd "[n") 'org-backward-heading-same-level)
