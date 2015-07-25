@@ -223,7 +223,6 @@ modifications)."
 ;;(require 'auto-complete-config)
 ;;(ac-config-default)
 
-
 ;; ~~Javascript settings.~~
 (setq js-basic-indent 2)
 (setq-default js2-basic-indent 2)
@@ -235,7 +234,20 @@ modifications)."
 (setq-default js2-global-externs "jQuery $")
 (setq-default js2-indent-on-enter-key t)
 (setq-default js2-mode-indent-ignore-first-tab t)
-(setq-default js2-global-externs '("module" "require" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON"))
+(setq-default js2-global-externs '("module"
+                                   "require"
+                                   "buster"
+                                   "sinon"
+                                   "assert"
+                                   "refute"
+                                   "setTimeout"
+                                   "clearTimeout"
+                                   "setInterval"
+                                   "clearInterval"
+                                   "location"
+                                   "__dirname"
+                                   "console"
+                                   "JSON"))
 ;; We'll let fly do the error parsing...
 ;;(setq-default js2-show-parse-errors nil)
 

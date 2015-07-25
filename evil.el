@@ -109,10 +109,10 @@
 
 ;; Relative linum
 (after-load 'linum-relative
+  (setq linum-format "%3d ")
   (defun bw/linum-non-relative (line-number)
     "Linum formatter that copies the format"
-    (propertize (format linum-relative-format line-number)
-                'face 'linum))
+    (propertize (format linum-relative-format line-number) 'face 'linum))
 
   (defun bw/linum-relative-formatting ()
     "Turn on relative formatting"
