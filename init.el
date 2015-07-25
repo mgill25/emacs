@@ -44,6 +44,11 @@
 ;; Wakatime
                                         ; (global-wakatime-mode)
 
+;; Path
+(add-to-list 'load-path "~/.emacs.d/packages/")
+(add-to-list 'load-path "~/.emacs.d/themes")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+
 ;; Load up the actual configuration files
 (load "~/.emacs.d/style.el")
 (load "~/.emacs.d/internal-config.el")
@@ -51,6 +56,7 @@
 (load "~/.emacs.d/ido.el")
 (load "~/.emacs.d/user.el")
 (load "~/.emacs.d/evil.el")
+(load "~/.emacs.d/utilities.el")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

@@ -1,10 +1,5 @@
-;; Path
-(add-to-list 'load-path "~/.emacs.d/packages/")
-
 ;; Emacs System stuff
 (defalias 'yes-or-no-p 'y-or-n-p)
-                                        ;(global-set-key (kbd "C-+") 'text-scale-increase) ; Increase font size
-                                        ;(global-set-key (kbd "C--") 'text-scale-decrease) ; Decease font size
 (setq visible-bell nil)
 (setq ring-bell-function #'ignore)
 
@@ -16,8 +11,6 @@
 
 (add-hook 'c-mode-hook 'conditional-disable-modes)
 (add-hook 'c++-mode-hook 'conditional-disable-modes)
-
-(load "better-zoom.el")
 
 (setq mac-option-modifier 'super) ;; OS X option key is now super
 (setq mac-command-modifier 'meta) ;; OS X cmd key is now Meta
@@ -63,7 +56,7 @@ modifications)."
 ;;(add-hook 'python-mode-hook 'activate-aggressive-indent)
 
 ;; M-( can insert () pair. Do the same for others.
-					; (global-set-key (kbd "M-[") 'insert-pair)
+;; (global-set-key (kbd "M-[") 'insert-pair)
 (global-set-key (kbd "M-{") 'insert-pair)
 (global-set-key (kbd "M-<") 'insert-pair)
 (global-set-key (kbd "M-'") 'insert-pair)
