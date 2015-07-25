@@ -15,7 +15,7 @@
 ;; (load-theme 'solarized-dark t)
 ;; (load-theme 'cyberpunk t)
 
-(load-theme 'tomorrow-night-bright t t) ; last t is for NO ENABLE
+(load-theme 'manoj-dark t t) ; last t is for NO ENABLE
 
 ;; Function to only load the theme in GUI for emacsclient
 ;; don't load any theme in console.
@@ -23,14 +23,14 @@
 (defun mb/pick-color-theme (frame)
   (select-frame frame)
   (if (window-system frame)
-      (progn (enable-theme 'tomorrow-night-bright))
+      (progn (enable-theme 'manoj-dark))
     (progn
       (menu-bar-mode 0)
-      (disable-theme 'tomorrow-night-bright))))
+      (disable-theme 'manoj-dark))))
 (add-hook 'after-make-frame-functions 'mb/pick-color-theme)
 
 ;; For when started with emacs or emacs -nw rather than emacs --daemon
-(if window-system (enable-theme 'tomorrow-night-bright))
+(if (window-system) (enable-theme 'manoj-dark))
 
 ;; Font
 (set-frame-font "Monaco-13:width=condensed")      ; Set font for current frame
@@ -47,3 +47,8 @@
 
 ;; Start the frame maximized
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+;; Modeline
+(setq sml/no-confirm-load-theme t)
+(sml/setup)
+

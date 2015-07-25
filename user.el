@@ -31,12 +31,6 @@
 
 ;; Editor stuff
 
-;; Linum
-(require 'linum)
-(global-linum-mode t)
-(setq linum-format "%3d  ")
-(set-face-attribute 'linum nil :height 100)
-
 ;; Indentation
 (define-key global-map (kbd "RET") 'newline-and-indent)
 (setq python-indent-level 4)
@@ -65,8 +59,8 @@ modifications)."
   (add-hook 'post-command-hook
             'indent-defun nil 'local))
 
-(add-hook 'emacs-lisp-mode-hook 'activate-aggressive-indent)
-(add-hook 'python-mode-hook 'activate-aggressive-indent)
+;;(add-hook 'emacs-lisp-mode-hook 'activate-aggressive-indent)
+;;(add-hook 'python-mode-hook 'activate-aggressive-indent)
 
 ;; M-( can insert () pair. Do the same for others.
 					; (global-set-key (kbd "M-[") 'insert-pair)
@@ -76,14 +70,13 @@ modifications)."
 (global-set-key (kbd "M-`") 'insert-pair)
 (global-set-key (kbd "M-\"") 'insert-pair)
 
-;; Multiple cursors
-;; (require 'multiple-cursors)
-;; (setq mc/unsupported-minor-modes '(company-mode auto-complete-mode flyspell-mode jedi-mode))
-
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+
+(global-set-key (kbd "C-M-;") 'avy-goto-char)
+(global-set-key (kbd "C-M-'") 'avy-goto-char-2)
 
 ;; use os clipboard
 (require 'pbcopy)
@@ -131,7 +124,7 @@ modifications)."
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 ;; Find in project keybinding.
-                                        ; (global-set-key (kbd "C-x f") 'find-file-in-project)
+;; (global-set-key (kbd "C-x f") 'find-file-in-project)
 (global-set-key (kbd "M-o") 'helm-find-files)
 
 ;; Currently open buffer list
@@ -172,8 +165,8 @@ modifications)."
 (global-set-key (kbd "M-m") 'helm-browse-project)
 (global-set-key (kbd "C-x M-s") 'helm-ls-git-ls)
 
-                                        ;(when (executable-find "curl")
-                                        ;  (setq helm-google-suggest-use-curl-p t))
+;;(when (executable-find "curl")
+;;  (setq helm-google-suggest-use-curl-p t))
 
 (setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
       helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
@@ -210,7 +203,7 @@ modifications)."
   "Custom view for linum mode in text editing"  
   (interactive)  
   (make-local-variable 'linum-format)
-  (setq linum-format "         "))
+  (setq linum-format " "))
 (add-hook 'org-mode-hook 'linevich-linum-mode)  
 
 ;; automatically open the work.org file when emacs starts
@@ -227,11 +220,9 @@ modifications)."
 (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
 
 ;; auto-complete mode
-                                        ;(require 'auto-complete-config)
-                                        ;(ac-config-default)
+;;(require 'auto-complete-config)
+;;(ac-config-default)
 
-(add-hook 'python-mode-hook 'jedi:setup)
-(setq jedi:complete-on-dot t)                 ; optional
 
 ;; ~~Javascript settings.~~
 (setq js-basic-indent 2)
@@ -308,9 +299,12 @@ modifications)."
 ;; Turn on snippets
 (require 'yasnippet)
 (setq yas-snippet-dirs '("~/.emacs.d/snippets/"))
-(yas-global-mode 1)
+;;(yas-global-mode 1)
+(yas-reload-all)
+(add-hook 'js2-mode-hook #'yas-minor-mode)
+(add-hook 'python-mode-hook #'yas-minor-mode)
 (add-to-list 'yas/root-directory "~/.emacs.d/snippets/yasnippet-snippets/")
-(yas/initialize)
+;;(yas/initialize)
 
 ;; auto complete mode
 ;; should be loaded after yasnippet so that they can work together
@@ -328,34 +322,6 @@ modifications)."
 (require 'expand-region)
 (global-set-key (kbd "C-@") 'er/expand-region)
 ;; ----------------------------------------------------------------------------------------------
-
-;; SML-Mode
-(autoload 'sml-mode "~/.emacs.d/packages/sml-mode-6.5.el"
-  "Major mode for editing SML." t)
-(setq auto-mode-alist
-      (cons '("\.sml$" . sml-mode)
-	    auto-mode-alist))
-(setq sml-program-name "/usr/local/bin/sml")
-(add-hook 'sml-mode-hook 'electric-indent-mode)
-;; Hook for quickly restarting REPL and loading current file
-(require 'cl)
-(add-hook 'sml-mode-hook
-          (lambda ()
-            (define-key sml-mode-map (kbd "C-c C-v")
-              'my-sml-restart-repl-and-load-current-file)
-            (defun my-sml-restart-repl-and-load-current-file ()
-              (interactive)
-              (ignore-errors
-                (with-current-buffer "*sml*"
-                  (comint-interrupt-subjob)
-                  (comint-send-eof)
-                  (let ((some-time 0.1))
-                    (while (process-status (get-process "sml"))
-                      (sleep-for some-time)))))
-              (cl-flet ((sml--read-run-cmd ()
-                                           '("/usr/local/bin/sml" "" nil)))   ; (command args host)  
-                (sml-prog-proc-send-buffer t)))))
-
 
 ;; Web beautify settings.
 ;; Set up paredit with js2-mode
@@ -419,7 +385,9 @@ modifications)."
               (push '("self" . ?◎) prettify-symbols-alist)
               (modify-syntax-entry ?. "."))))
 
-
-;; Elfeed - RSS feed reader
-;;(load-file "feeds.el") ;; load the feeds
-;;(global-set-key (kbd "C-x w") 'elfeed)
+;; Whitespace http://www.emacswiki.org/emacs/WhiteSpace
+;; Don't use tabs. That way lies madness!
+(setq-default indent-tabs-mode nil)
+(require 'whitespace)
+(setq whitespace-style '(tabs tab-mark)) ;turns on white space mode only for tabs
+(global-whitespace-mode 1)

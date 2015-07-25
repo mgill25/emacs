@@ -45,12 +45,12 @@
                                         ; (global-wakatime-mode)
 
 ;; Load up the actual configuration files
+(load "~/.emacs.d/style.el")
 (load "~/.emacs.d/internal-config.el")
+(load "~/.emacs.d/eshell-conf.el")
 (load "~/.emacs.d/ido.el")
 (load "~/.emacs.d/user.el")
 (load "~/.emacs.d/evil.el")
-(load "~/.emacs.d/style.el")
-(load "~/.emacs.d/eshell-conf.el")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -59,18 +59,10 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("5ee12d8250b0952deefc88814cf0672327d7ee70b16344372db9460e9a0e3ffc"
-     "cf08ae4c26cacce2eebff39d129ea0a21c9d7bf70ea9b945588c1c66392578d1"
-     "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4"
-     "9e54a6ac0051987b4296e9276eecc5dfb67fdcd620191ee553f40a9b6d943e78"
-     default)))
+    ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "8b30636c9a903a9fa38c7dcf779da0724a37959967b6e4c714fdc3b3fe0b8653" "6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" "5ee12d8250b0952deefc88814cf0672327d7ee70b16344372db9460e9a0e3ffc" "cf08ae4c26cacce2eebff39d129ea0a21c9d7bf70ea9b945588c1c66392578d1" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "9e54a6ac0051987b4296e9276eecc5dfb67fdcd620191ee553f40a9b6d943e78" default)))
  '(evil-emacs-state-modes
    (quote
-    (magit-commit-mode
-     magit-log-mode
-     magit-stash-mode
-     magit-status-mode
-     org-agenda-mode)))
+    (magit-commit-mode magit-log-mode magit-stash-mode magit-status-mode org-agenda-mode)))
  '(wakatime-api-key "8ef07422-e38c-46d5-be7d-9c466f2a49d5")
  '(wakatime-cli-path "/usr/local/bin/wakatime"))
 (custom-set-faces

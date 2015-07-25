@@ -11,7 +11,6 @@
 (defun text-scale-adjust-zAp ()
    (interactive)
    (text-scale-adjust 0)
-   (set-face-attribute 'linum nil :height def-zoom-ht)
  )
 (global-set-key [C-kp-multiply] 'text-scale-adjust-zAp)
 
@@ -23,13 +22,12 @@
                                    text-scale-mode-step)))
    (if (> text-scale (- 1 sub-zoom-len))
        (progn
-         (text-scale-decrease text-scale-mode-step)
-         (if (<= 0 text-scale-mode-amount)
-             (set-face-attribute 'linum nil :height def-zoom-ht)
-           (if (> 0 text-scale-mode-amount)
-               (set-face-attribute 'linum nil :height 
-                                     (elt sub-zoom-ht (- 0 text-scale)))))))
-)
+         (text-scale-decrease text-scale-mode-step))))
+
+;; Linum mode constant height
+(eval-after-load "linum"
+  '(set-face-attribute 'linum nil :height 100))
+
 (global-set-key [C-kp-subtract] 'text-scale-decrease-zAp)
 
 (defun text-scale-increase-zAp ()
@@ -40,13 +38,8 @@
                                    text-scale-mode-step)))
    (if (< text-scale 85)
        (progn
-         (text-scale-increase text-scale-mode-step)
-         (if (< (- 0 text-scale-mode-step) text-scale-mode-amount)
-             (set-face-attribute 'linum nil :height def-zoom-ht)
-           (if (> 0 text-scale-mode-amount)
-               (set-face-attribute 'linum nil :height 
-                                     (elt sub-zoom-ht (- 0 text-scale)))))))
-)
+         (text-scale-increase text-scale-mode-step))))
+         
 (global-set-key [C-kp-add] 'text-scale-increase-zAp)
 
 
@@ -55,9 +48,9 @@
 ;(global-set-key [C-kp-subtract] 'text-scale-decrease-zAp)
 ;(global-set-key [C-kp-add]      'text-scale-increase-zAp)
 
-(global-set-key (kbd "C-=") 'text-scale-adjust-zAp)
-(global-set-key (kbd "C--") 'text-scale-decrease-zAp)
-(global-set-key (kbd "C-+") 'text-scale-increase-zAp)
+(global-set-key (kbd "M-0") 'text-scale-adjust-zAp)
+(global-set-key (kbd "M--") 'text-scale-decrease-zAp)
+(global-set-key (kbd "M-=") 'text-scale-increase-zAp)
 
 ;; Zoom font via Control Mouse Wheel
 (global-set-key (kbd "<C-mouse-4>") 'text-scale-increase-zAp)

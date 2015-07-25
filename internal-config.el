@@ -4,4 +4,3 @@
   (declare (indent defun))
   `(eval-after-load ,feature
      '(progn ,@body)))
-

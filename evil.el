@@ -11,7 +11,7 @@
 
 ;; From: http://blog.jakubarnold.cz/2014/06/23/evil-mode-how-to-switch-from-vim-to-emacs.html
 (define-key evil-normal-state-map (kbd ",,") 'evil-buffer)
-(define-key evil-normal-state-map (kbd "q") nil)
+(define-key evil-normal-state-map (kbd "q") nil) ;; kbd macros
 
 (define-key evil-normal-state-map (kbd "C-p") 'helm-projectile) ;; use helm on CtrlP
 
@@ -29,6 +29,15 @@
 (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
 (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
 (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
+
+;; Org mode
+;; (evil-define-key 'normal org-mode-map (kbd "]n") 'org-forward-heading-same-level)
+;; (evil-define-key 'normal org-mode-map (kbd "[n") 'org-backward-heading-same-level)
+
+;; (evil-define-key 'normal org-mode-map (kbd "C-M-l") 'org-shiftright)
+;; (evil-define-key 'normal org-mode-map (kbd "C-M-h") 'org-shiftleft)
+;; (evil-define-key 'insert org-mode-map (kbd "C-M-l") 'org-shiftright)
+;; (evil-define-key 'insert org-mode-map (kbd "C-M-h") 'org-shiftleft)
 
 ;; Leader!
 ;; keyboard shortcuts
@@ -67,6 +76,18 @@
   "x" 'smex
   "y" 'bury-buffer)
 
+;; Evil settings for specific modes.
+(evil-set-initial-state 'magit-log-edit-mode 'insert)
+(add-to-list 'evil-buffer-regexps '("\\*magit:"))
+
+(evil-add-hjkl-bindings ag-mode-map 'normal
+    "n"   'evil-search-next
+    "N"   'evil-search-previous
+    "RET" 'compile-goto-error)
+
+(evil-add-hjkl-bindings org-agenda-mode-map 'emacs
+    "RET" 'org-agenda-switch-to)
+
 ;; Custom variable
 ;; Add any mode that should start in emacs mode instead of normal/insert mode here!
 (custom-set-variables
@@ -74,8 +95,7 @@
    (quote (magit-commit-mode
            magit-log-mode
            magit-stash-mode
-           magit-status-mode
-           org-agenda-mode))))
+           magit-status-mode))))
 
 ;; on OSX, stop copying each visual state move to the clipboard:
 ;; https://bitbucket.org/lyro/evil/issue/336/osx-visual-state-copies-the-region-on
@@ -108,16 +128,29 @@
         ;; show >> on line where cursor is
         linum-relative-current-symbol ">>")
 
-  ;; in Normal mode, use relative numbering
-                                        ;(add-hook 'evil-normal-state-entry-hook 'bw/linum-relative-formatting)
-  ;; in Insert mode, use normal line numbering
-                                        ;(add-hook 'evil-insert-state-entry-hook 'bw/linum-normal-formatting)
-  ;; turn off linum mode automatically when entering Emacs mode
-                                        ;(add-hook 'evil-emacs-state-entry-hook 'bw/disable-linum-mode)
-  ;; turn off linum mode when entering Emacs
-                                        ;(add-hook 'evil-emacs-state-entry-hook 'bw/linum-normal-formatting)
+  ; in Normal mode, use relative numbering
+  ;;(add-hook 'evil-normal-state-entry-hook 'bw/linum-relative-formatting)
+  ; in Insert mode, use normal line numbering
+  ;;(add-hook 'evil-insert-state-entry-hook 'bw/linum-normal-formatting)
+  ; turn off linum mode automatically when entering Emacs mode
+  ;;(add-hook 'evil-emacs-state-entry-hook 'bw/disable-linum-mode)
+  ; turn off linum mode when entering Emacs
+  ;;(add-hook 'evil-emacs-state-entry-hook 'bw/linum-normal-formatting)
 
   ;; copy linum face so it doesn't look weird
   (set-face-attribute 'linum-relative-current-face nil :foreground (face-attribute 'font-lock-keyword-face :foreground) :background nil :inherit 'linum :bold t))
 
 (require 'linum-relative)
+
+;; Evil-Rebellion: Evil mode compatibility for various other modes.
+;; XXX: is causing errors atm.
+;;(require 'evil-rebellion)
+;;(defun after-all-loads () (require 'evil))
+;;(add-hook 'after-init-hook 'after-all-loads)
+
+;; Linum
+(require 'linum)
+(global-linum-mode t)
+(set-face-attribute 'linum nil :height 100)
+;;(setq linum-format "%3d \u2502 ") ;; With dashes as separator
+(setq linum-format "%3d ")
