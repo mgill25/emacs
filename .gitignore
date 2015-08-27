@@ -1,2 +1,7 @@
 projectile-bookmarks.eld
 ac-comphist.dat
+*.elc
+elpa
+eshell
+snippets
+url
