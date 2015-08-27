@@ -17,6 +17,19 @@
 
 (add-to-list 'load-path "~/.emacs.d/packages/")
 
+;; load file helper functions
+(defconst user-init-dir
+  (cond ((boundp 'user-emacs-directory)
+         user-emacs-directory)
+        ((boundp 'user-init-directory)
+         user-init-directory)
+        (t "~/.emacs.d/")))
+
+(defun load-user-file (file)
+  (interactive "f")
+  "Load a file in current user's configuration directory"
+  (load-file (expand-file-name file user-init-dir)))
+
 ;; OS X: Pseudo Daemon mode: Create a new frame every time
 ;; we exit from an old one, for emacsclient, so OS X doc icon doesn't become
 ;; useless.
@@ -43,6 +56,8 @@
 (global-evil-leader-mode)
 (evil-leader/set-leader ";")
 ;; (require 'evil)
+(load-user-file "internal-config.el")
+(load-user-file "evil.el")
 (evil-mode t)
 
 ;; Wakatime
@@ -54,24 +69,10 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
 ;; Load up the actual configuration files
-(defconst user-init-dir
-  (cond ((boundp 'user-emacs-directory)
-         user-emacs-directory)
-        ((boundp 'user-init-directory)
-         user-init-directory)
-        (t "~/.emacs.d/")))
-
-(defun load-user-file (file)
-  (interactive "f")
-  "Load a file in current user's configuration directory"
-  (load-file (expand-file-name file user-init-dir)))
-
 (load-user-file "style.el")
-(load-user-file "internal-config.el")
 (load-user-file "eshell-conf.el")
 (load-user-file "ido.el")
 (load-user-file "user.el")
-(load-user-file "evil.el")
 (load-user-file "utilities.el")
 
 (custom-set-variables

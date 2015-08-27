@@ -1,39 +1,39 @@
 ;;;;;;;;;; Evil Mode Config ;;;;;;;;;;;;
 
 ;; Esc quits
-(eval-after-load 'evil-mode '(define-key evil-normal-state-map [escape] 'keyboard-quit))
-(eval-after-load 'evil-mode '(define-key evil-visual-state-map [escape] 'keyboard-quit))
-(eval-after-load 'evil-mode '(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit))
-(eval-after-load 'evil-mode '(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit))
-(eval-after-load 'evil-mode '(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit))
-(eval-after-load 'evil-mode '(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit))
-(eval-after-load 'evil-mode '(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit))
+(define-key evil-normal-state-map [escape] 'keyboard-quit)
+(define-key evil-visual-state-map [escape] 'keyboard-quit)
+(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
 
 ;; From: http://blog.jakubarnold.cz/2014/06/23/evil-mode-how-to-switch-from-vim-to-emacs.html
-(eval-after-load 'evil-mode '(define-key evil-normal-state-map (kbd ",,") 'evil-buffer))
-(eval-after-load 'evil-mode '(define-key evil-normal-state-map (kbd "q") nil)) ;; kbd macros
+(define-key evil-normal-state-map (kbd ",,") 'evil-buffer)
+(define-key evil-normal-state-map (kbd "q") nil) ;; kbd macro
 
-(eval-after-load 'evil-mode '(define-key evil-normal-state-map (kbd "C-p") 'helm-projectile)) ;; use helm on CtrlP
+(define-key evil-normal-state-map (kbd "C-p") 'helm-projectile) ;; use helm on Ctrl
 
 (eval-after-load 'evil-mode '(define-key evil-insert-state-map (kbd "C-e") nil))
-(eval-after-load 'evil-mode '(define-key evil-insert-state-map (kbd "C-d") nil))
-(eval-after-load 'evil-mode '(define-key evil-insert-state-map (kbd "C-k") nil))
-(eval-after-load 'evil-mode '(define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state))
-(eval-after-load 'evil-mode '(define-key evil-visual-state-map (kbd "C-c") 'evil-normal-state))
+(define-key evil-insert-state-map (kbd "C-d") nil)
+(define-key evil-insert-state-map (kbd "C-k") nil)
+(define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+(define-key evil-visual-state-map (kbd "C-c") 'evil-normal-state)
 
-(eval-after-load 'evil-mode '(define-key evil-motion-state-map (kbd "C-e") nil))
-(eval-after-load 'evil-mode '(define-key evil-visual-state-map (kbd "C-c") 'evil-exit-visual-state))
+(define-key evil-motion-state-map (kbd "C-e") nil)
+(define-key evil-visual-state-map (kbd "C-c") 'evil-exit-visual-state)
 
 ;; navigation for splits
-(eval-after-load 'evil-mode '(define-key evil-normal-state-map (kbd "C-h") 'evil-window-left))
-(eval-after-load 'evil-mode '(define-key evil-normal-state-map (kbd "C-j") 'evil-window-down))
-(eval-after-load 'evil-mode '(define-key evil-normal-state-map (kbd "C-k") 'evil-window-up))
-(eval-after-load 'evil-mode '(define-key evil-normal-state-map (kbd "C-l") 'evil-window-right))
+(define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
+(define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
+(define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
+(define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
 
 ;; Define Ex Mode Commands for Evil
-(eval-after-load 'evil-mode '(evil-ex-define-cmd "h[ide]" 'bury-buffer))
-(eval-after-load 'evil-mode '(evil-ex-define-cmd "colo[rscheme]" 'load-theme))
-(eval-after-load 'evil-mode '(evil-ex-define-cmd "bd" 'evil-delete-buffer))
+(evil-ex-define-cmd "h[ide]" 'bury-buffer)
+(evil-ex-define-cmd "colo[rscheme]" 'load-theme)
+(evil-ex-define-cmd "bd" 'evil-delete-buffer)
 
 ;; Org mode
 ;; (evil-define-key 'normal org-mode-map (kbd "]n") 'org-forward-heading-same-level)
@@ -46,7 +46,7 @@
 
 ;; Leader!
 ;; keyboard shortcuts
-(eval-after-load 'global-evil-leader-mode '(evil-leader/set-key
+(evil-leader/set-key
   "a" 'ag-project
   "A" 'ag
   "b" 'ido-switch-buffer
@@ -79,19 +79,19 @@
   "T" 'eshell
   "w" 'save-buffer
   "x" 'smex
-  "y" 'bury-buffer))
+  "y" 'bury-buffer)
 
 ;; Evil settings for specific modes.
-(eval-after-load 'evil-mode '(evil-set-initial-state 'magit-log-edit-mode 'insert))
-(eval-after-load 'evil-mode '(add-to-list 'evil-buffer-regexps '("\\*magit:")))
+(evil-set-initial-state 'magit-log-edit-mode 'insert)
+(add-to-list 'evil-buffer-regexps '("\\*magit:"))
 
-(eval-after-load 'evil-mode '(evil-add-hjkl-bindings ag-mode-map 'normal
+(evil-add-hjkl-bindings ag-mode-map 'normal
     "n"   'evil-search-next
     "N"   'evil-search-previous
-    "RET" 'compile-goto-error))
+    "RET" 'compile-goto-error)
 
-(eval-after-load 'evil-mode '(evil-add-hjkl-bindings org-agenda-mode-map 'emacs
-    "RET" 'org-agenda-switch-to))
+(evil-add-hjkl-bindings org-agenda-mode-map 'emacs
+    "RET" 'org-agenda-switch-to)
 
 ;; Custom variable
 ;; Add any mode that should start in emacs mode instead of normal/insert mode here!
