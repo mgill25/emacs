@@ -42,7 +42,7 @@
 (autoload 'evil-leader "Evil leader mode" "Minor mode for evil" t)
 (global-evil-leader-mode)
 (evil-leader/set-leader ";")
-                                        ; (require 'evil)
+;; (require 'evil)
 (evil-mode t)
 
 ;; Wakatime

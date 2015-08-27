@@ -11,9 +11,8 @@
 ;; (load-theme 'solarized-dark t)
 ;; (load-theme 'solarized-dark t)
 ;; (load-theme 'cyberpunk t)
-(defvar current-theme 'misterioso "The current theme for Emacs!")
 
-(load-theme current-theme t t) ; last t is for NO ENABLE
+(load-theme 'misterioso t t) ; last t is for NO ENABLE
 
 ;; Function to only load the theme in GUI for emacsclient
 ;; don't load any theme in console.
@@ -21,14 +20,14 @@
 (defun mb/pick-color-theme (frame)
   (select-frame frame)
   (if (window-system frame)
-      (progn (enable-theme current-theme))
+      (progn (enable-theme 'misterioso))
     (progn
       (menu-bar-mode 0)
-      (disable-theme 'current-theme))))
+      (disable-theme 'misterioso))))
 (add-hook 'after-make-frame-functions 'mb/pick-color-theme)
 
 ;; For when started with emacs or emacs -nw rather than emacs --daemon
-(if (window-system) (enable-theme 'current-theme))
+(if (window-system) (enable-theme 'misterioso))
 
 ;; Font
 (set-frame-font "Monaco-13:width=condensed")      ; Set font for current frame
