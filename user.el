@@ -57,6 +57,7 @@ modifications)."
 
 ;; M-( can insert () pair. Do the same for others.
 ;; (global-set-key (kbd "M-[") 'insert-pair)
+
 (global-set-key (kbd "M-{") 'insert-pair)
 (global-set-key (kbd "M-<") 'insert-pair)
 (global-set-key (kbd "M-'") 'insert-pair)
@@ -72,7 +73,7 @@ modifications)."
 (global-set-key (kbd "C-M-'") 'avy-goto-char-2)
 
 ;; use os clipboard
-(require 'pbcopy)
+(autoload 'turn-on-pbcopy "pbcopy" "Minor mode" t)
 (turn-on-pbcopy)
 
 ;; use spaces instead of tabs for indentation
@@ -176,11 +177,15 @@ modifications)."
 
 (global-set-key (kbd "M-t") 'helm-semantic-or-imenu)
 
-(require 'helm-ls-git)
+;;(require 'helm-ls-git)
+
+(autoload 'helm-ls-git-ls "helm-ls-git" "\
+\(fn &optional ARG)" t nil)
+
 (helm-mode 1)
 
 ;; Recent file list. Emacs already has this feature builtin
-(require 'recentf)
+(autoload 'recentf-mode "recentf" "minor" t)
 (recentf-mode 1)
 (setq recentf-max-menu-items 25)
 (global-set-key (kbd "C-c f f") 'recentf-open-files)
@@ -191,6 +196,7 @@ modifications)."
 (setq org-log-done 'time) ;; Insert timestamp right after a TODO field is finished.
 (setq org-agenda-files (list "~/org/work.org"
                              "~/org/home.org"))
+(setq org-src-fontify-natively t)
 
 (defun linevich-linum-mode()  
   "Custom view for linum mode in text editing"  
@@ -244,13 +250,11 @@ modifications)."
 ;; We'll let fly do the error parsing...
 ;;(setq-default js2-show-parse-errors nil)
 
-(require 'js2-mode)
-;; (add-hook 'js2-mode-hook 'activate-aggressive-indent)
-(rename-modeline "js2-mode" js2-mode "JS2")
-(add-hook 'js2-mode-hook 'conditional-disable-modes)
-
-;;(autoload 'js2-mode "js2-mode" nil t)
+(autoload 'js2-mode "js2-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(add-hook 'js2-mode-hook 'conditional-disable-modes)
+(rename-modeline "js2-mode" js2-mode "JS2")
+
 ;; restclient mode mapping
 (add-to-list 'auto-mode-alist '("\\.restclient$" . restclient-mode))
 
@@ -286,7 +290,7 @@ modifications)."
            (replace-regexp-in-string ".*1G.*3G" "&GT;" output)
            (replace-regexp-in-string "&GT;" "> " output)))))
 
-(require 'nodejs-repl-eval)
+(autoload 'nodejs-repl-eval "nodejs-repl-eval" "Major mode" t)
 (defun my/js-keybindings ()
   (interactive)
   (local-set-key (kbd "C-x C-r") 'nodejs-repl-start-and-eval-region)
@@ -296,16 +300,16 @@ modifications)."
 
 (add-hook 'js-mode-hook 'my/js-keybindings)
 (add-hook 'js2-mode-hook 'my/js-keybindings)
-(define-key js2-mode-map (kbd "C-x C-e") 'send-region-to-nodejs-repl-process)
-(define-key nodejs-repl-mode-map (kbd "<up>") 'comint-previous-input)
-(define-key nodejs-repl-mode-map (kbd "<down>") 'comint-next-input)
+(eval-after-load 'js2-mode '(define-key js2-mode-map (kbd "C-x C-e") 'send-region-to-nodejs-repl-process))
+(eval-after-load 'js2-mode '(define-key nodejs-repl-mode-map (kbd "<up>") 'comint-previous-input))
+(eval-after-load 'js2-mode '(define-key nodejs-repl-mode-map (kbd "<down>") 'comint-next-input))
 ;; ------------ ~Fin Javascript ---------------
 
 ;; Turn on snippets
 (require 'yasnippet)
 (setq yas-snippet-dirs '("~/.emacs.d/snippets/"))
 ;;(yas-global-mode 1)
-(yas-reload-all)
+(eval-after-load 'yasnippet (yas-reload-all))
 (add-hook 'js2-mode-hook #'yas-minor-mode)
 (add-hook 'python-mode-hook #'yas-minor-mode)
 (add-to-list 'yas/root-directory "~/.emacs.d/snippets/yasnippet-snippets/")
@@ -313,19 +317,19 @@ modifications)."
 
 ;; auto complete mode
 ;; should be loaded after yasnippet so that they can work together
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
-(ac-config-default)
+(autoload 'auto-complete-mode "auto-complete" nil t)
+(eval-after-load 'auto-complete-mode '(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict"))
+(eval-after-load 'auto-complete-mode '(ac-config-default))
 
 ;; set the trigger key so that it can work together with yasnippet on tab key,
 ;; if the word exists in yasnippet, pressing tab will cause yasnippet to
 ;; activate, otherwise, auto-complete will
-(ac-set-trigger-key "TAB")
-(ac-set-trigger-key "<tab>")
+(eval-after-load 'auto-complete-mode '(ac-set-trigger-key "TAB"))
+(eval-after-load 'auto-complete-mode '(ac-set-trigger-key "<tab>"))
 
 ;; Expand region: Text selection by semantic units.
-(require 'expand-region)
-(global-set-key (kbd "C-@") 'er/expand-region)
+(autoload 'expand-region "expand-region" "minor" t)
+(eval-after-load 'expand-region '(global-set-key (kbd "C-@") 'er/expand-region))
 ;; ----------------------------------------------------------------------------------------------
 
 ;; Web beautify settings.
@@ -359,7 +363,7 @@ modifications)."
 ;; Note: Capitalizing the first letter, i.e. Btw, expands the abbreviation with an initial capital, i.e. By the way … Sweet.
 
 ;; Emmet-Mode
-(require 'emmet-mode)
+(autoload 'emmet-mode "emmet-mode" "minor" t)
 (add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
 (add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
 ;; Prettify symbols globally
@@ -393,6 +397,7 @@ modifications)."
 ;; Whitespace http://www.emacswiki.org/emacs/WhiteSpace
 ;; Don't use tabs. That way lies madness!
 (setq-default indent-tabs-mode nil)
-(require 'whitespace)
-(setq whitespace-style '(tabs tab-mark)) ;turns on white space mode only for tabs
+(autoload 'whitespace-mode "whitespace-mode" "minor" t)
+;;(setq whitespace-style '(tabs tab-mark)) ;turns on white space mode only for tabs
+(setq whitespace-style '()) ;turns on white space mode only for tabs
 (global-whitespace-mode 1)

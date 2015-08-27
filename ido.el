@@ -22,4 +22,5 @@
 
 (setq confirm-nonexistent-file-or-buffer nil)
 
-(require 'ido)
+(autoload 'ido-mode "ido" "minor" t)
+

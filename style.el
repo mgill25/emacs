@@ -11,8 +11,9 @@
 ;; (load-theme 'solarized-dark t)
 ;; (load-theme 'solarized-dark t)
 ;; (load-theme 'cyberpunk t)
+(defvar current-theme 'misterioso "The current theme for Emacs!")
 
-(load-theme 'junio t t) ; last t is for NO ENABLE
+(load-theme current-theme t t) ; last t is for NO ENABLE
 
 ;; Function to only load the theme in GUI for emacsclient
 ;; don't load any theme in console.
@@ -20,14 +21,14 @@
 (defun mb/pick-color-theme (frame)
   (select-frame frame)
   (if (window-system frame)
-      (progn (enable-theme 'junio))
+      (progn (enable-theme current-theme))
     (progn
       (menu-bar-mode 0)
-      (disable-theme 'junio))))
+      (disable-theme 'current-theme))))
 (add-hook 'after-make-frame-functions 'mb/pick-color-theme)
 
 ;; For when started with emacs or emacs -nw rather than emacs --daemon
-(if (window-system) (enable-theme 'junio))
+(if (window-system) (enable-theme 'current-theme))
 
 ;; Font
 (set-frame-font "Monaco-13:width=condensed")      ; Set font for current frame
@@ -46,6 +47,8 @@
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; Modeline
+(setq sml/shorten-directory t)
+(setq sml/shorten-modes t)
 (setq sml/no-confirm-load-theme t)
 (sml/setup)
 

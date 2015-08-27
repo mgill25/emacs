@@ -33,6 +33,7 @@
 ;; Define Ex Mode Commands for Evil
 (evil-ex-define-cmd "h[ide]" 'bury-buffer)
 (evil-ex-define-cmd "colo[rscheme]" 'load-theme)
+(evil-ex-define-cmd "bd" 'evil-delete-buffer)
 
 ;; Org mode
 ;; (evil-define-key 'normal org-mode-map (kbd "]n") 'org-forward-heading-same-level)
@@ -144,17 +145,11 @@
   ;; copy linum face so it doesn't look weird
   (set-face-attribute 'linum-relative-current-face nil :foreground (face-attribute 'font-lock-keyword-face :foreground) :background nil :inherit 'linum :bold t))
 
-(require 'linum-relative)
-
-;; Evil-Rebellion: Evil mode compatibility for various other modes.
-;; XXX: is causing errors atm.
-;;(require 'evil-rebellion)
-;;(defun after-all-loads () (require 'evil))
-;;(add-hook 'after-init-hook 'after-all-loads)
+(autoload 'linum-relative-toggle "linum-relative" nil t)
 
 ;; Linum
-(require 'linum)
+;;(autoload 'linum "linum-mode" "display line number on each buffer" t)
 (global-linum-mode t)
-(set-face-attribute 'linum nil :height 100)
+(eval-after-load 'linum-mode '(set-face-attribute 'linum nil :height 100))
+(eval-after-load 'linum-mode '(setq linum-format "%3d "))
 ;;(setq linum-format "%3d \u2502 ") ;; With dashes as separator
-(setq linum-format "%3d ")
