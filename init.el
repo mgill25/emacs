@@ -70,11 +70,11 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
 ;; Load up the actual configuration files
-(load-user-file "style.el")
 (load-user-file "eshell-conf.el")
 (load-user-file "user.el")
 (load-user-file "ido.el")
 (load-user-file "utilities.el")
+(load-user-file "style.el")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

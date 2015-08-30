@@ -290,7 +290,7 @@ modifications)."
            (replace-regexp-in-string ".*1G.*3G" "&GT;" output)
            (replace-regexp-in-string "&GT;" "> " output)))))
 
-(autoload 'nodejs-repl-eval "nodejs-repl-eval" "Major mode" t)
+(autoload 'nodejs-repl "nodejs-repl" "Major mode" t)
 (defun my/js-keybindings ()
   (interactive)
   (local-set-key (kbd "C-x C-r") 'nodejs-repl-start-and-eval-region)
@@ -301,8 +301,8 @@ modifications)."
 (add-hook 'js-mode-hook 'my/js-keybindings)
 (add-hook 'js2-mode-hook 'my/js-keybindings)
 (eval-after-load 'js2-mode '(define-key js2-mode-map (kbd "C-x C-e") 'send-region-to-nodejs-repl-process))
-(eval-after-load 'js2-mode '(define-key nodejs-repl-mode-map (kbd "<up>") 'comint-previous-input))
-(eval-after-load 'js2-mode '(define-key nodejs-repl-mode-map (kbd "<down>") 'comint-next-input))
+(eval-after-load 'nodejs-repl '(define-key nodejs-repl-mode-map (kbd "<up>") 'comint-previous-input))
+(eval-after-load 'nodejs-repl '(define-key nodejs-repl-mode-map (kbd "<down>") 'comint-next-input))
 ;; ------------ ~Fin Javascript ---------------
 
 ;; Turn on snippets
