@@ -317,7 +317,7 @@ modifications)."
 
 ;; auto complete mode
 ;; should be loaded after yasnippet so that they can work together
-(autoload 'auto-complete-mode "auto-complete" nil t)
+(autoload 'auto-complete "auto-complete-mode" nil t)
 (eval-after-load 'auto-complete-mode '(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict"))
 (eval-after-load 'auto-complete-mode '(ac-config-default))
 
@@ -393,6 +393,10 @@ modifications)."
             (lambda ()
               (push '("self" . ?◎) prettify-symbols-alist)
               (modify-syntax-entry ?. "."))))
+;; Python-Jedi
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)                 ; optional
+
 
 ;; Whitespace http://www.emacswiki.org/emacs/WhiteSpace
 ;; Don't use tabs. That way lies madness!
@@ -401,3 +405,11 @@ modifications)."
 ;;(setq whitespace-style '(tabs tab-mark)) ;turns on white space mode only for tabs
 (setq whitespace-style '()) ;turns on white space mode only for tabs
 (global-whitespace-mode 1)
+
+;; Golang: go-mode
+(require 'go-mode-autoloads)
+(add-hook 'before-save-hook 'gofmt-before-save)
+(add-hook 'go-mode-hook (lambda ()
+                          (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)))
+(add-hook 'go-mode-hook (lambda ()
+                          (local-set-key (kbd "C-c i") 'go-goto-imports)))
