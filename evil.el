@@ -59,7 +59,7 @@
   "E" 'mc/edit-lines
   "f" 'ido-find-file
   "g" 'magit-status
-  "G" 'magit-blame-mode
+  "G" 'magit-blame
   "i" 'idomenu
   "j" 'ace-jump-mode
   "J" 'ace-jump-word-mode
